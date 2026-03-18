@@ -1,0 +1,9 @@
+-- CreateTable
+CREATE TABLE "Reference" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "reference" TEXT NOT NULL,
+    "id_user" INTEGER NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Reference_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

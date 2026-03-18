@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Actif {
+  non
+  oui
+}
+
+enum Vu {
+  non
+  oui
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum Statue {
+  En_attente
+  Accordé
+}
+
+// UTILISATEUR
+model User {
+  id               Int          @id @default(autoincrement())
+  photo            String?
+  pseudo           String       @unique
+  nom              String
+  email            String       @unique
+  mdp              String
+  contact          String?
+  adresse          String?
+  actif            Actif        @default(non)
+  role             Role         @default(user)
+  statue           Statue       @default(En_attente)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  likes            Like[]
+  messagesEnvoyes  Message[] @relation("Envoyeur")
+  messagesRecus    Message[] @relation("Receveur")
+  reference        Reference[]
+  cours            Cours[]  @relation("UserCours")
+  vues             Vue[]
+  commentaires     Commentaire[]
+  historique       Historique[]
+}
+model Historique {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  coursId   Int
+  progress  Float    @default(0) // 0 à 100
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  cours Cours @relation(fields: [coursId], references: [id])
+
+  @@unique([userId, coursId])
+}
+
+// REFERENCES
+model Reference {
+  id         Int      @id @default(autoincrement())
+  reference  String
+  id_user    Int?
+  user       User?    @relation(fields: [id_user], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// COURS
+model Cours {
+  id          Int          @id @default(autoincrement())
+  video       String
+  titre       String
+  description String
+  userId      Int?         // nullable temporaire
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  user        User?        @relation("UserCours", fields: [userId], references: [id])
+  likes       Like[]
+  commentaires Commentaire[]
+  vues        Vue[]
+  historique  Historique[]
+}
+
+// LIKES
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  coursId   Int
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  cours Cours @relation(fields: [coursId], references: [id])
+
+  @@unique([userId, coursId])
+}
+
+// MESSAGES (on conserve id_e et id_r)
+model Message {
+  id        Int      @id @default(autoincrement())
+  id_e      Int?     // nullable temporaire pour migration
+  id_r      Int?     // nullable temporaire pour migration
+  message   String
+  vu        Vu       @default(non)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  envoyeur  User? @relation("Envoyeur", fields: [id_e], references: [id])
+  receveur  User? @relation("Receveur", fields: [id_r], references: [id])
+}
+
+// VUES
+model Vue {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  coursId   Int
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  cours Cours @relation(fields: [coursId], references: [id])
+
+  @@unique([userId, coursId])
+}
+
+// COMMENTAIRES
+model Commentaire {
+  id        Int      @id @default(autoincrement())
+  message   String
+  userId    Int
+  coursId   Int
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  cours Cours @relation(fields: [coursId], references: [id])
+}
