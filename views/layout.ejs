@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>E-learning</title>
+</head>
+
+<body class="bg-gray-100 transition" id="app">
+
+  <%- include("partials/header") %>
+
+  <div class="flex">
+    <%- include("partials/sidebar") %>
+
+    <main class="flex-1 p-6">
+      <%- body %>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

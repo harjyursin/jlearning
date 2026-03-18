@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Ajouter un cours</h5>
+            </div>
+            <div class="card-block">
+                <form class="form-material" method="post" enctype="multipart/form-data" action="/admin/add">
+                    <div class="form-group form-warning">
+                        <label>Téléverser un vidéo ou un fichier</label>
+                        <input type="file" name="video" class="form-control" required="">
+                        <span class="form-bar"></span>
+                    </div>
+                    <div class="form-group form-primary">
+                        <input type="text" name="titre" class="form-control" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Titre</label>
+                    </div>
+                
+                    <div class="form-group form-primary">
+                        <textarea name="description" id="description" class="form-control" required=""></textarea>
+                        <span class="form-bar"></span>
+                        <label class="float-label">Description</label>
+                    </div>
+                    
+                    <div class="form-group form-info">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Enregister</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

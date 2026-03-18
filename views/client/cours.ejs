@@ -1,0 +1,183 @@
+<div class="container-fluid mt-3">
+    <div class="row">
+
+        <!-- 🎬 VIDEO PRINCIPALE -->
+        <div class="col-lg-8 position-relative">
+
+            <!-- Conteneur de la vidéo avec icône de lecture -->
+            <div id="video-container" class="video-container mb-3" data-start-time="<%= startTime %>"
+                data-next-video-id="<%= nextVideoId ? nextVideoId : '' %>">
+                <video poster="assets/images/auth/logo1.png" id="main-video" src="/assets/videos/<%= dc.video %>" controls></video>
+                <!-- Icône lecture overlay -->
+                <div class="play-icon" id="play-icon">
+                    ▶
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="video-progress"
+                        ></div>
+                </div>
+            </div>
+
+            <h3 class="fw-bold">
+                <%= dc.titre %>
+            </h3>
+
+            <div class="video-meta d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Publié récemment</span>
+                <div>
+                   
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> vu</button>
+                        <button class="btn btn-light btn-sm">👍 Like</button>
+                        <button class="btn btn-light btn-sm">🔗 Partager</button>
+                    
+                </div>
+            </div>
+
+            <div class="description-box">
+                <h6>Description</h6>
+                <p>
+                    <%= dc.description %>
+                </p>
+            </div>
+
+        </div>
+
+        <!-- 📺 VIDEOS SUGGÉRÉES -->
+        <div class="col-lg-4">
+            <% cours.forEach(c=> { %>
+                <a href="/client/cours/<%= c.id %>" class="suggested-video">
+                    <div class="thumb">
+                        <video poster="assets/images/auth/logo1.png" src="/assets/videos/<%= c.video %>" muted></video>
+                    </div>
+                    <div class="video-info">
+                        <h6>
+                            <%= c.titre %>
+                        </h6>
+                        <small class="text-muted">Formation</small>
+                    </div>
+                </a>
+                <% }) %>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .video-container {
+        position: relative;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 450px;
+        border-radius: 10px;
+        background: black;
+    }
+
+    .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 80px;
+        color: rgba(255, 255, 255, 0.8);
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .video-container:hover .play-icon {
+        opacity: 1;
+    }
+
+    .description-box {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .suggested-video {
+        display: flex;
+        text-decoration: none;
+        color: black;
+        margin-bottom: 15px;
+        transition: 0.2s;
+    }
+
+    .suggested-video:hover {
+        background: #f2f2f2;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    .thumb video {
+        width: 140px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .video-info {
+        margin-left: 10px;
+    }
+
+    .video-info h6 {
+        font-size: 14px;
+        margin: 0;
+    }
+</style>
+
+<script>
+    const container = document.getElementById("video-container");
+    const nextVideoId = container.dataset.nextVideoId || null;
+
+    const video = document.getElementById("main-video");
+    const playIcon = document.getElementById("play-icon");
+
+    // Affiche icône lecture quand la vidéo n'est pas en lecture
+    video.addEventListener("pause", () => { playIcon.style.opacity = 1; });
+    video.addEventListener("play", () => { playIcon.style.opacity = 0; });
+
+    // Redirection vers la prochaine vidéo
+    video.addEventListener("ended", function () {
+        if (nextVideoId) {
+            window.location.href = "/client/cours/" + nextVideoId;
+        } else {
+            alert("Vous avez regardé toutes les vidéos !");
+        }
+    });
+
+    // Récupère le startTime depuis l'attribut HTML
+
+
+    // Définir la position de départ
+    video.currentTime = startTime;
+
+    const progressBar = document.getElementById("video-progress");
+
+    const startTime = parseFloat(container.dataset.startTime) || 0;
+    video.currentTime = startTime;
+
+
+    // Mise à jour barre de progression et serveur toutes les 5s
+    video.addEventListener("timeupdate", () => {
+        const progress = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = progress + "%";
+
+        if (Math.floor(video.currentTime) % 5 === 0) {
+            fetch("/client/cours/progress", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ coursId: '<%= dc.id %>', progress })
+            });
+        }
+    });
+
+    video.addEventListener("ended", () => {
+        if (nextVideoId) window.location.href = "/cours/" + nextVideoId;
+        else alert("Vous avez regardé toutes les vidéos !");
+    });
+
+    pr = document.querySelector("#video-progress");
+    pr.style="width:<%= historique ? historique.progress : 0 %>%";
+</script>

@@ -1,0 +1,27 @@
+<h2 class="text-xl font-bold mb-4">Bienvenue <%= user.name %></h2>
+
+<p class="mb-4">Niveau <%= user.level %> • <%= user.xp %> XP</p>
+
+<!-- Skeleton -->
+<div id="skeleton" class="grid grid-cols-3 gap-4">
+  <div class="h-40 bg-gray-300 animate-pulse rounded"></div>
+  <div class="h-40 bg-gray-300 animate-pulse rounded"></div>
+</div>
+
+<div id="content" class="hidden grid grid-cols-3 gap-6">
+
+<% courses.forEach(course => { %>
+  <a href="/course/<%= course.id %>" class="bg-white p-4 rounded-xl shadow hover:scale-105 transition">
+    <h3 class="font-bold"><%= course.title %></h3>
+
+    <div class="bg-gray-200 h-2 mt-2 rounded">
+      <div class="bg-indigo-600 h-2 rounded" style="width:<%= course.progress %>%"></div>
+    </div>
+
+    <p class="text-sm mt-1"><%= course.progress %>%</p>
+
+    <span class="text-xs bg-yellow-300 px-2 py-1 rounded">🏆 XP: <%= course.xp %></span>
+  </a>
+<% }) %>
+
+</div>

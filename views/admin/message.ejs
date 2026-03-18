@@ -1,0 +1,237 @@
+<style>
+    .messenger {
+    display: flex;
+    height: 85vh;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #f0f2f5;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 30%;
+    background: white;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    transition: 0.2s;
+}
+
+.user-item:hover {
+    background: #f5f5f5;
+}
+
+.user-item.active {
+    background: #e7f3ff;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #1877f2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.user-info small {
+    display: block;
+    color: gray;
+}
+
+/* CHAT AREA */
+.chat-area {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.chat-header {
+    padding: 15px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.status {
+    font-size: 12px;
+    color: green;
+}
+
+/* BODY */
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f0f2f5;
+}
+
+/* MESSAGE */
+.message {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.message.sent {
+    justify-content: flex-end;
+}
+
+.message.received {
+    justify-content: flex-start;
+}
+
+.bubble {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.sent .bubble {
+    background: #1877f2;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.received .bubble {
+    background: white;
+    border-bottom-left-radius: 5px;
+}
+
+/* INPUT */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    background: #f0f2f5;
+    outline: none;
+}
+
+.chat-input button {
+    border: none;
+    background: #1877f2;
+    color: white;
+    padding: 0 20px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+/* EMPTY */
+.empty-chat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 18px;
+    color: gray;
+}
+</style>
+
+<div class="messenger">
+
+    <!-- SIDEBAR USERS -->
+    <div class="sidebar">
+        <h5 class="p-3 border-bottom">Conversations</h5>
+
+        <% users.forEach(u => { %>
+            <a href="/admin/message/<%= u.id %>" 
+               class="user-item <%= selectedUser == u.id ? 'active' : '' %>">
+                
+                <div class="avatar">
+                    <%= u.pseudo.charAt(0).toUpperCase() %>
+                </div>
+
+                <div class="user-info">
+                    <strong><%= u.pseudo %></strong>
+                    <small><%= u.email %></small>
+                </div>
+
+            </a>
+        <% }) %>
+    </div>
+
+
+    <!-- CHAT AREA -->
+    <div class="chat-area">
+
+        <% if(selectedUser){ %>
+
+        <!-- HEADER -->
+        <div class="chat-header">
+            <h6>
+                <%= users.find(u => u.id == selectedUser)?.pseudo %>
+            </h6>
+            <span class="status">En ligne</span>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="chat-body" id="chatBody">
+
+            <% messages.forEach(m => { %>
+
+                <% if(m.id_e === session.user.id){ %>
+
+                    <div class="message sent">
+                        <div class="bubble">
+                            <%= m.message %>
+                        </div>
+                    </div>
+
+                <% } else { %>
+
+                    <div class="message received">
+                        <div class="bubble">
+                            <%= m.message %>
+                        </div>
+                    </div>
+
+                <% } %>
+
+            <% }) %>
+
+        </div>
+
+        <!-- INPUT -->
+        <form action="/admin/message/<%= selectedUser %>" method="post" class="chat-input">
+            <input type="text" name="message" placeholder="Écrire un message..." required>
+            <button type="submit">
+                <i class="fa fa-paper-plane"></i>
+            </button>
+        </form>
+
+        <% } else { %>
+
+            <div class="empty-chat">
+                Sélectionnez une conversation
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+<script>
+    const chat = document.getElementById("chatBody");
+    if(chat){
+        chat.scrollTop = chat.scrollHeight;
+    }
+</script>

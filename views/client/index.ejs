@@ -1,0 +1,338 @@
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet'>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<div class="row">
+    <!-- task, page, download counter  start -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4 class="text-c-purple">30</h4>
+                        <h6 class="text-muted m-b-0">Cours vidéos</h6>
+                    </div>
+                    <div class="col-4 text-right">
+                        <i class="fa fa-play-circle f-28"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-c-purple">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <p class="text-white m-b-0">% change</p>
+                    </div>
+                    <div class="col-3 text-right">
+                        <i class="fa fa-line-chart text-white f-16"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4 class="text-c-green">29</h4>
+                        <h6 class="text-muted m-b-0">Documents</h6>
+                    </div>
+                    <div class="col-4 text-right">
+                        <i class="fa fa-file-text-o f-28"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-c-green">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <p class="text-white m-b-0">% change</p>
+                    </div>
+                    <div class="col-3 text-right">
+                        <i class="fa fa-line-chart text-white f-16"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4 class="text-c-red">145</h4>
+                        <h6 class="text-muted m-b-0">Calendrier</h6>
+                    </div>
+                    <div class="col-4 text-right">
+                        <i class="fa fa-calendar-check-o f-28"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-c-red">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <p class="text-white m-b-0">% change</p>
+                    </div>
+                    <div class="col-3 text-right">
+                        <i class="fa fa-line-chart text-white f-16"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-block">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h4 class="text-c-blue">500</h4>
+                        <h6 class="text-muted m-b-0">Téléchargements</h6>
+                    </div>
+                    <div class="col-4 text-right">
+                        <i class="fa fa-download f-28"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-c-blue">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <p class="text-white m-b-0">% change</p>
+                    </div>
+                    <div class="col-3 text-right">
+                        <i class="fa fa-line-chart text-white f-16"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- task, page, download counter  end -->
+
+    <!--  sale analytics start -->
+
+    <div class="col-xl-8 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Progrès</h5>
+                <span class="text-muted">Vous pouvez voir votre progrès ci-dessous.</span>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                        <li><i class="fa fa-minus minimize-card"></i></li>
+                        <li><i class="fa fa-refresh reload-card"></i></li>
+                        <li><i class="fa fa-trash close-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <% if (historiques.length===0) { %>
+                    <p class="text-muted">Vous n'avez encore regardé aucune vidéo.</p>
+                    <% } else { %>
+                        <% historiques.forEach(h=> { %>
+                            <div class="video-progress-item mb-3">
+                                <h6>
+                                    <%= h.cours.titre %>
+                                </h6>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: <%= h.progress %>%"></div>
+                                </div>
+                                <small class="text-muted">
+                                    <%= Math.floor(h.progress) %>% terminé
+                                </small>
+                            </div>
+                            <% }) %>
+                                <% } %>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Calendrier</h5>
+                <span class="text-muted">Vous pouvez voir les dates marqués pour les travaux pratiques.</span>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                        <li><i class="fa fa-minus minimize-card"></i></li>
+                        <li><i class="fa fa-refresh reload-card"></i></li>
+                        <li><i class="fa fa-trash close-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div id="calendar"></div>
+            </div>
+        </div>
+
+    </div>
+    <style>
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 5px 0;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #007bff;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .video-progress-item h6 {
+            margin-bottom: 2px;
+        }
+    </style>
+
+</div>
+
+<style>
+    .stretch-card>.card {
+        width: 100%;
+        min-width: 100%
+    }
+
+    body {
+        background-color: #f9f9fa
+    }
+
+    .flex {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto
+    }
+
+    @media (max-width:991.98px) {
+        .padding {
+            padding: 1.5rem
+        }
+    }
+
+    @media (max-width:767.98px) {
+        .padding {
+            padding: 1rem
+        }
+    }
+
+    .padding {
+        padding: 3rem
+    }
+
+    .card {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -ms-box-shadow: none
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid ghostwhite;
+        border-radius: 0;
+    }
+
+    .card .card-block {
+        padding: 1.25rem;
+    }
+
+    h6 {
+        font-size: 16px !important;
+    }
+
+    .text-c-green {
+        color: #2ed8b6;
+    }
+
+    .m-l-10 {
+        margin-left: 10px;
+    }
+
+    .proj-progress-card .progress {
+        height: 6px;
+        overflow: visible;
+        margin-bottom: 10px;
+    }
+
+    .proj-progress-card .progress .progress-bar {
+        position: relative;
+    }
+
+    .progress .progress-bar {
+        height: 100%;
+        color: inherit;
+    }
+
+    .bg-c-red {
+        background: #FF5370;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-red:after {
+        border: 3px solid #FF5370;
+    }
+
+    .proj-progress-card .progress .progress-bar:after {
+        content: "";
+        background: #fff;
+        position: absolute;
+        right: -6px;
+        top: -4px;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+
+    .bg-c-blue {
+        background: #4099ff;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-blue:after {
+        border: 3px solid #4099ff;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-green:after {
+        border: 3px solid #2ed8b6;
+    }
+
+    .bg-c-green {
+        background: #2ed8b6;
+    }
+
+    .bg-c-yellow {
+        background: #FFB64D;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-yellow:after {
+        border: 3px solid #FFB64D;
+    }
+
+    .m-b-30 {
+        margin-bottom: 30px;
+    }
+
+    .text-c-red {
+        color: #FF5370;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                { title: 'Cours JS', date: '2026-02-25' },
+                { title: 'Formation React', date: '2026-02-28' }
+            ]
+        });
+        calendar.render();
+    });
+
+</script>

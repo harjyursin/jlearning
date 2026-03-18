@@ -1,0 +1,78 @@
+<!-- Row start -->
+<div class="row">
+    <div class="col-lg-12">
+        <!-- <h6 class="sub-title">Tab With Icon</h6> -->
+        <div class="d-flex justify-content-between sub-title p-3">
+            <div class=""></div>
+            <a href="add" class="btn btn-primary text-light"><i class="fa fa-plus"></i>Ajouter un cours</a>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="tab-content card-block">
+            <div class="tab-pane active" id="home7" role="tabpanel">
+                <!-- Hover table card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Cours vidéos</h5>
+                        <span>Tous les cours vidéos <code>CMS</code></span>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                <li><i class="fa fa-trash close-card"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-block table-border-style">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card shadow p-3">
+                                    <% if(profile.photo != null){ %>
+                                        <img src="assets/profile/<%=profile.photo%>" class="img-fluid rounded-circle" alt="" srcset="">
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <form action="update" enctype="multipart/form-data" method="post">
+                                    <div class="form-group form-warning">
+                                        <label>Photo</label>
+                                        <input type="file" name="photo" class="form-control" required="">
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Changer ma photo</button>
+                                </form>
+                                <div class="form-group form-warning">
+                                    <label>Pseudo</label>
+                                    <input type="text" name="pseudo" value="<%=profile.pseudo%>" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="form-group form-warning">
+                                    <label>Nom</label>
+                                    <input type="text" name="nom" value="<%=profile.nom%>" class="form-control" required="" readonly>
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="form-group form-warning">
+                                    <label>E-mail</label>
+                                    <input type="email" name="email" value="<%=profile.email%>" class="form-control" required="" readonly>
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="form-group form-warning">
+                                    <label>Adresse</label>
+                                    <input type="text" name="adresse" value="<%=profile.adresse%>" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hover table card end -->
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<!-- Row end -->
